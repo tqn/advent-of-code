@@ -6,6 +6,8 @@ There is an extensive write-up and description of an algorithm in the [day 8 rea
 
 ## Running
 
-Activate the nix development shell via direnv, or manually with `nix develop` in the root directory.
+Activate the nix development shell via direnv, or manually with `nix develop` in the root directory. (You can also run `nix develop .#clojure` or `nix develop .#guile`. The default development shell has both.)
 
-To run a Guile program, say `day1`, `cd` into `day1` and run `guile -s day1.scm day1.txt`.
+To run a Guile program, say `day1`, run `guile -s src/day1.scm data/day1.txt`.
+
+To run a Clojure program, say `day9`, run `clj -M -m day9 data/day9.txt`.

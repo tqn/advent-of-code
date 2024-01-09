@@ -29,14 +29,13 @@
           pkgs = import nixpkgs {inherit system;};
         });
   in {
-    # Development environment output
-    devShells = forAllSystems ({pkgs}: {
-      default = pkgs.mkShell {
-        # The Nix packages provided in the environment
-        packages = with pkgs; [
-          guile
-        ];
+    devShells = forAllSystems ({pkgs}: rec {
+      default = pkgs.mkShell {inputsFrom = [clojure guile];};
+      clojure = pkgs.mkShell {
+        packages = [pkgs.clojure];
+        nativeBuildInputs = [pkgs.clojure-lsp];
       };
+      guile = pkgs.mkShell {packages = [pkgs.guile];};
     });
   };
 }

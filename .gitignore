@@ -1,2 +1,8 @@
 result
 .direnv
+
+.calva
+.clj-kondo
+.cpcache
+.lsp
+.nrepl-port
