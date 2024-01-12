@@ -24,9 +24,11 @@
 (def undamaged #{\.})
 (def undamaged-wk (set/union undamaged wildcard))
 
-;; not sure if this is asymptotically optimal
 ;; essentially runs an NFA defined by `runs` on `rec`
 ;; and counts instances that finish
+;; probably asymptotically optimal because running an NFA and
+;; counting solutions is like running a regular expression, except
+;; in the latter case we are interested if there merely exists a match.
 (defn brute-count [recs runs]
   (let [step-damaged
         (fn [mgo recsi runsi run]
@@ -41,14 +43,14 @@
           (mgo mgo (inc recsi) runs))
         go
         (memoize
-         (fn a [mgo recsi runsi]
+         (fn [mgo recsi runsi]
            (or (if-some [run (get runs runsi)]
                  (when-some [rec (get recs recsi)]
                    (condp contains? rec
                      damaged (step-damaged mgo recsi runsi run)
                      undamaged (step-undamaged mgo recsi runsi)
                      ;;  wildcard
-                     (+ (step-damaged mgo (inc recsi) runsi (dec run)) ; (first runs) is unused
+                     (+ (step-damaged mgo (inc recsi) runsi (dec run))
                         (step-undamaged mgo recsi runsi))))
                  (when (every? undamaged-wk (subvec recs recsi)) 1))
                0)))]
@@ -63,13 +65,11 @@
     (println
      (->> ast
           (pmap (partial apply brute-count))
-          (reduce + 0)
-          time))
+          (reduce + 0)))
     (println
      (->> ast
           (pmap expand-mf)
-          (reduce + 0)
-          time))))
+          (reduce + 0)))))
 
 (defn -main [& args]
   (apply solve args)
