@@ -27,37 +27,39 @@
 ;; not sure if this is asymptotically optimal
 ;; essentially runs an NFA defined by `runs` on `rec`
 ;; and counts instances that finish
-(def brute-count
-  (let [go
+(defn brute-count [recs runs]
+  (let [step-damaged
+        (fn [mgo recsi runsi run]
+          (let [recsi+run (+ recsi run)]
+            (if (and (<= recsi+run (count recs))
+                     (->> (subvec recs recsi recsi+run) (every? damaged-wk))
+                     (not (damaged (get recs recsi+run))))
+              (mgo mgo (min (inc recsi+run) (count recs)) (inc runsi))
+              0)))
+        step-undamaged
+        (fn [mgo recsi runs]
+          (mgo mgo (inc recsi) runs))
+        go
         (memoize
-         (fn [mgo recs runs]
-           (or (if-some [run (first runs)]
-                 (when-first [rec recs]
+         (fn a [mgo recsi runsi]
+           (or (if-some [run (get runs runsi)]
+                 (when-some [rec (get recs recsi)]
                    (condp contains? rec
-                     damaged
-                     (when (and (<= run (count recs))
-                                (->> recs (take run) (every? damaged-wk))
-                                (not (damaged (nth recs run nil))))
-                       (mgo mgo (drop (inc run) recs) (rest runs)))
-                     undamaged
-                     (mgo mgo (rest recs) runs)
-                     wildcard
-                     (->>
-                      (map #(mgo mgo (cons % (rest recs)) runs)
-                           [(first damaged)
-                            (first undamaged)])
-                      (reduce + 0))))
-                 (when (every? undamaged-wk recs) 1))
+                     damaged (step-damaged mgo recsi runsi run)
+                     undamaged (step-undamaged mgo recsi runsi)
+                     ;;  wildcard
+                     (+ (step-damaged mgo (inc recsi) runsi (dec run)) ; (first runs) is unused
+                        (step-undamaged mgo recsi runsi))))
+                 (when (every? undamaged-wk (subvec recs recsi)) 1))
                0)))]
-    (partial go go)))
+    (go go 0 0)))
 
-(defn -main [input-path]
+(defn solve [input-path]
   (let [ast (-> input-path slurp parse cst->ast)
         fac 5
-        recs-expand #(apply concat (interpose [(first wildcard)] (repeat fac %)))
-        runs-expand #(apply concat (repeat fac %))
-        expand-mf (fn [[recs runs]]
-                    (brute-count (recs-expand recs) (runs-expand runs)))]
+        recs-expand #(->> % (repeat fac) (interpose [(first wildcard)]) (apply concat) vec)
+        runs-expand #(->> % (repeat fac) (apply concat) vec)
+        expand-mf (fn [[recs runs]] (brute-count (recs-expand recs) (runs-expand runs)))]
     (println
      (->> ast
           (pmap (partial apply brute-count))
@@ -69,6 +71,10 @@
           (reduce + 0)
           time))))
 
+(defn -main [& args]
+  (apply solve args)
+  (shutdown-agents))
+
 (comment
-  (-main "data/day12.txt")
+  (solve "data/day12.txt")
   #_())
