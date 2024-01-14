@@ -15,9 +15,6 @@
 
 (defn persistent2! [xss] (mapv persistent! (persistent! xss)))
 
-(defn assoc2 [xss coords c]
-  (-> xss transient2 (assoc-in! coords c) persistent2!))
-
 (defn indices-of2 [pred xss]
   (apply concat
          (keep-indexed
@@ -78,7 +75,7 @@
           (map first)
           set
           dir-pipe
-          (assoc2 grid start-coords))
+          (assoc-in grid start-coords))
      start-coords]))
 
 (defn step-with [grid]
