@@ -6,7 +6,7 @@ These are my Advent of Code attempts. So far, I have used AoC as an opportunity 
 
 I attempted AoC 2022 in Haskell. Given my math background, it was a delight.
 
-I think I was using GHC 9.2.5. The file structure is a mess (e.g. full of duplicated and modified files) and no Nix development shell is provided because I was trying to focus on the Haskell at the time. I may fix this in the near future. For some of the later solutions, I gave up trying to avoid dependencies and used `megaparsec`.
+I think I was using GHC 9.2.5. The file structure is a mess (e.g. full of duplicated and modified files) and ~~no Nix development shell is provided~~ because I was trying to focus on the Haskell at the time. ~~I may fix this in the near future.~~ (NOTE: I have sort of fixed it for now! The environment is at least reproducible.) For some of the later solutions, I gave up trying to avoid dependencies and used `megaparsec`.
 
 
 ## 2023
