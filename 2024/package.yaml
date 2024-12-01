@@ -1,0 +1,63 @@
+name: advent-of-code-twenty-four
+version: 0.1.0
+language: GHC2021
+dependencies:
+  - attoparsec
+  - name: base
+    mixin: 
+      - hiding (Prelude)
+  - containers
+  - name: relude
+    mixin:
+      - (Relude as Prelude)
+      - ""
+  - effectful
+  - effectful-core
+  - effectful-th
+  - effectful-plugin
+  - lens
+
+executables:
+  day1:
+    main: Day1.hs
+    source-dirs: ./src
+
+ghc-options: -fplugin=Effectful.Plugin
+default-extensions:
+  - ApplicativeDo
+  - BangPatterns
+  - BlockArguments
+  - ConstraintKinds
+  - DataKinds
+  - DefaultSignatures
+  - DeriveFoldable
+  - DeriveFunctor
+  - DeriveGeneric
+  - DeriveLift
+  - DeriveTraversable
+  - DerivingStrategies
+  - EmptyCase
+  - ExistentialQuantification
+  - FlexibleContexts
+  - FlexibleInstances
+  - FunctionalDependencies
+  - GADTs
+  - GeneralizedNewtypeDeriving
+  - InstanceSigs
+  - KindSignatures
+  - LambdaCase
+  - MultiParamTypeClasses
+  - MultiWayIf
+  - NamedFieldPuns
+  - OverloadedStrings
+  - PatternSynonyms
+  - PolyKinds
+  - RankNTypes
+  - ScopedTypeVariables
+  - StandaloneDeriving
+  - TemplateHaskell
+  - TupleSections
+  - TypeApplications
+  - TypeFamilies
+  - TypeFamilyDependencies
+  - TypeOperators
