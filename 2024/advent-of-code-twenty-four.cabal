@@ -13,6 +13,7 @@ executable day1
   other-modules:
       Paths_advent_of_code_twenty_four
   default-extensions:
+      NoImplicitPrelude
       ApplicativeDo
       BangPatterns
       BlockArguments
@@ -69,6 +70,7 @@ executable day2
   other-modules:
       Paths_advent_of_code_twenty_four
   default-extensions:
+      NoImplicitPrelude
       ApplicativeDo
       BangPatterns
       BlockArguments

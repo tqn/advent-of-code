@@ -23,6 +23,7 @@ executables:
 
 ghc-options: -fplugin=Effectful.Plugin
 default-extensions:
+  - NoImplicitPrelude # relude mixin solution doesn't work well with my IDE
   - ApplicativeDo
   - BangPatterns
   - BlockArguments
