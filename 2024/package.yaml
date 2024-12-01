@@ -2,25 +2,24 @@ name: advent-of-code-twenty-four
 version: 0.1.0
 language: GHC2021
 dependencies:
-  - attoparsec
-  - name: base
-    mixin: 
-      - hiding (Prelude)
+  - base
   - containers
-  - name: relude
-    mixin:
-      - (Relude as Prelude)
-      - ""
   - effectful
   - effectful-core
-  - effectful-th
   - effectful-plugin
+  - effectful-th
   - lens
+  - megaparsec
+  - relude
+  - text
+  
 
 executables:
   day1:
-    main: Day1.hs
-    source-dirs: ./src
+    main: ./src/Day1.hs
+  day2:
+    main: ./src/Day2.hs
+
 
 ghc-options: -fplugin=Effectful.Plugin
 default-extensions:

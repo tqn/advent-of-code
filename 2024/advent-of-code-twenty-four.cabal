@@ -1,4 +1,4 @@
-cabal-version: 2.0
+cabal-version: 1.12
 
 -- This file has been generated from package.yaml by hpack version 0.37.0.
 --
@@ -9,13 +9,9 @@ version:        0.1.0
 build-type:     Simple
 
 executable day1
-  main-is: Day1.hs
+  main-is: ./src/Day1.hs
   other-modules:
       Paths_advent_of_code_twenty_four
-  autogen-modules:
-      Paths_advent_of_code_twenty_four
-  hs-source-dirs:
-      ./src
   default-extensions:
       ApplicativeDo
       BangPatterns
@@ -56,17 +52,70 @@ executable day1
       TypeOperators
   ghc-options: -fplugin=Effectful.Plugin
   build-depends:
-      attoparsec
-    , base
+      base
     , containers
     , effectful
     , effectful-core
     , effectful-plugin
     , effectful-th
     , lens
+    , megaparsec
     , relude
-  mixins:
-      base hiding (Prelude)
-    , relude (Relude as Prelude)
-    , relude 
+    , text
+  default-language: GHC2021
+
+executable day2
+  main-is: ./src/Day2.hs
+  other-modules:
+      Paths_advent_of_code_twenty_four
+  default-extensions:
+      ApplicativeDo
+      BangPatterns
+      BlockArguments
+      ConstraintKinds
+      DataKinds
+      DefaultSignatures
+      DeriveFoldable
+      DeriveFunctor
+      DeriveGeneric
+      DeriveLift
+      DeriveTraversable
+      DerivingStrategies
+      EmptyCase
+      ExistentialQuantification
+      FlexibleContexts
+      FlexibleInstances
+      FunctionalDependencies
+      GADTs
+      GeneralizedNewtypeDeriving
+      InstanceSigs
+      KindSignatures
+      LambdaCase
+      MultiParamTypeClasses
+      MultiWayIf
+      NamedFieldPuns
+      OverloadedStrings
+      PatternSynonyms
+      PolyKinds
+      RankNTypes
+      ScopedTypeVariables
+      StandaloneDeriving
+      TemplateHaskell
+      TupleSections
+      TypeApplications
+      TypeFamilies
+      TypeFamilyDependencies
+      TypeOperators
+  ghc-options: -fplugin=Effectful.Plugin
+  build-depends:
+      base
+    , containers
+    , effectful
+    , effectful-core
+    , effectful-plugin
+    , effectful-th
+    , lens
+    , megaparsec
+    , relude
+    , text
   default-language: GHC2021
