@@ -4,7 +4,6 @@ import Relude
 
 import Control.Arrow hiding ((&&&))
 import Data.ByteString (ByteString)
-import Data.ByteString qualified as BS
 import Data.Map.Strict qualified as M
 import Data.Text (Text)
 import Data.Text qualified as T
@@ -13,8 +12,7 @@ import Effectful
 import Effectful.FileSystem
 import Effectful.FileSystem.IO.ByteString qualified as EBS
 import Text.Megaparsec (Parsec, parse)
-import Text.Megaparsec.Byte qualified as Lexer
-import Text.Megaparsec.Char (newline, space, string)
+import Text.Megaparsec.Char (newline, space)
 import Text.Megaparsec.Char.Lexer qualified as Lexer
 
 process1 :: (Ord a, Num a) => [(a, a)] -> a
