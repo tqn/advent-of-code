@@ -18,16 +18,19 @@ import Text.Megaparsec.Byte qualified as Lexer
 import Text.Megaparsec.Char (newline, space, string)
 import Text.Megaparsec.Char.Lexer qualified as Lexer
 
+process :: (Ord a, Num a) => [(a, a)] -> a
+process pairs = unzip pairs & (sort *** sort) & uncurry zip <&> dist & sum
+ where
+  dist (a, b) = abs (a - b)
+
 parseLine :: Parsec Void Text (Int, Int)
 parseLine = (,) <$> Lexer.decimal <* space <*> Lexer.decimal
 
-getInput :: (FileSystem :> es) => FilePath -> Eff es Text
-getInput path = TE.decodeUtf8Lenient <$> EBS.readFile path
+program :: (FileSystem :> es) => FilePath -> Eff es Text
+program inputFilename = do
+  contents <- TE.decodeUtf8Lenient <$> EBS.readFile inputFilename
+  let pairs = error . show ||| id $ parse (many $ parseLine <* newline) inputFilename contents
+  return $ show $ process pairs
 
 main :: IO ()
-main = runEff . runFileSystem $ do
-  let inputFilename = "data/day1.txt"
-  contents <- getInput inputFilename
-  let res = error . show ||| id $ parse (many $ parseLine <* newline) inputFilename contents
-
-  print res
+main = runEff . runFileSystem $ print =<< program "data/day1.txt"
