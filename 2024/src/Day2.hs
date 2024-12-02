@@ -18,8 +18,6 @@ import Text.Megaparsec.Char.Lexer qualified as Lexer
 process1 :: (Ord a, Num a) => [[a]] -> Int
 process1 = length . filter safe
 
-type A = NonEmpty Int
-
 diffs :: (Num a) => [a] -> [a]
 diffs (x : xs@(y : _)) = (x - y) : diffs xs
 diffs _ = []
@@ -31,7 +29,11 @@ safe line = any (all safeDiff) [diffLine, negate <$> diffLine]
   safeDiff x = x >= 1 && x <= 3
 
 process2 :: (Ord a, Num a) => [[a]] -> Int
-process2 lines = 0
+process2 = length . filter safe2
+
+-- Horribly inefficient, but whatever.
+safe2 :: (Ord a, Num a) => [a] -> Bool
+safe2 line = safe line || any (safe . uncurry (++)) (zip (inits line) (drop 1 (tails line)))
 
 parseLine :: Parsec Void Text [Int]
 parseLine = sepBy1 Lexer.decimal hspace1
